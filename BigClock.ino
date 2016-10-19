@@ -9,26 +9,26 @@
 // Script found on instructable 
 // 19/10 Adding the match mode
 　
-CRGB leds[NUM_LEDS]; // Define LEDs strip
-byte digits[10][7] = {{0,1,1,1,1,1,1},  // Digit 0
-                     {0,1,0,0,0,0,1},   // Digit 1
-                     {1,1,1,0,1,1,0},   // Digit 2
-                     {1,1,1,0,0,1,1},   // Digit 3
-                     {1,1,0,1,0,0,1},   // Digit 4
-                     {1,0,1,1,0,1,1},   // Digit 5
-                     {1,0,1,1,1,1,1},   // Digit 6
-                     {0,1,1,0,0,0,1},   // Digit 7
-                     {1,1,1,1,1,1,1},   // Digit 8
-                     {1,1,1,1,0,1,1}};  // Digit 9 | 2D Array for numbers on 7 segment
+//CRGB leds[NUM_LEDS]; // Define LEDs strip
+//byte digits[10][7] = {{0,1,1,1,1,1,1},  // Digit 0
+//                     {0,1,0,0,0,0,1},   // Digit 1
+//                     {1,1,1,0,1,1,0},   // Digit 2
+//                     {1,1,1,0,0,1,1},   // Digit 3
+//                     {1,1,0,1,0,0,1},   // Digit 4
+//                     {1,0,1,1,0,1,1},   // Digit 5
+//                     {1,0,1,1,1,1,1},   // Digit 6
+//                     {0,1,1,0,0,0,1},   // Digit 7
+//                     {1,1,1,1,1,1,1},   // Digit 8
+//                     {1,1,1,1,0,1,1}};  // Digit 9 | 2D Array for numbers on 7 segment
 bool Dot = true;  //Dot state
 bool DST = false; //DST state
 bool Match = False; //Match state
-int ledColor = 0x0000FF; // Color used (in hex)
+//int ledColor = 0x0000FF; // Color used (in hex)
 void setup(){ 
-//  Serial.begin(9600); 
+  Serial.begin(9600); 
 //  Wire.begin(); 
-  LEDS.addLeds<WS2811, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS); // Set LED strip type
-  LEDS.setBrightness(255); // Set initial brightness
+//  LEDS.addLeds<WS2811, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS); // Set LED strip type
+//  LEDS.setBrightness(255); // Set initial brightness
   pinMode(2, INPUT_PULLUP); // Define DST adjust button pin
   pinMode(3, INPUT_PULLUP); // Define SwitchMode button pin
   pinMode(4, INPUT_PULLUP); // Define Minutes adjust button pin
