@@ -1,7 +1,7 @@
 #include <DS3232RTC.h>
 #include <Time.h> 
 #include <Wire.h> 
-//#include "FastLED.h"
+#include "FastLED.h"
 #define NUM_LEDS 29 // Number of LED controles (remember I have 3 leds / controler
 #define COLOR_ORDER BRG  // Define color order for your strip
 #define DATA_PIN 6  // Data pin for led comunication
@@ -23,12 +23,12 @@
 bool Dot = true;  //Dot state
 bool DST = false; //DST state
 bool Match = False; //Match state
-//int ledColor = 0x0000FF; // Color used (in hex)
+int ledColor = 0x0000FF; // Color used (in hex)
 void setup(){ 
   Serial.begin(9600); 
-//  Wire.begin(); 
-//  LEDS.addLeds<WS2811, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS); // Set LED strip type
-//  LEDS.setBrightness(255); // Set initial brightness
+  Wire.begin(); 
+  LEDS.addLeds<WS2811, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS); // Set LED strip type
+  LEDS.setBrightness(255); // Set initial brightness
   pinMode(2, INPUT_PULLUP); // Define DST adjust button pin
   pinMode(3, INPUT_PULLUP); // Define SwitchMode button pin
   pinMode(4, INPUT_PULLUP); // Define Minutes adjust button pin
