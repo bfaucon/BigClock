@@ -62,10 +62,10 @@ void TimeToArray(){
   int Now = GetTime();  // Get time
   int cursor = 29;
   
-//  Serial.print("Time is: ");Serial.println(Now);
+  Serial.print("Time is: ");Serial.println(Now);
   if (DST){   // if DST is true then add one hour
    Now+=100;
-//   Serial.print("DST is ON, time set to : ");Serial.println(Now);
+   Serial.print("DST is ON, time set to : ");Serial.println(Now);
   }; 
   if (Dot){leds[14]=ledColor;}
     else {leds[14]=0x000000;
@@ -73,63 +73,63 @@ void TimeToArray(){
   for(int i=1;i<=4;i++){
     int digit = Now % 10; // get last digit in time
     if (i==1){
-//      Serial.print("Digit 4 is : ");Serial.print(digit);Serial.print(" ");
+      Serial.print("Digit 4 is : ");Serial.print(digit);Serial.print(" ");
       cursor =22;
       for(int k=0; k<=6;k++){ 
-//        Serial.print(digits[digit][k]);
+        Serial.print(digits[digit][k]);
         if (digits[digit][k]== 1){leds[cursor]=ledColor;}
          else if (digits[digit][k]==0){leds[cursor]=0x000000;};
          cursor ++;
         };
-//      Serial.println();
+      Serial.println();
       }
     else if (i==2){
-//      Serial.print("Digit 3 is : ");Serial.print(digit);Serial.print(" ");
+      Serial.print("Digit 3 is : ");Serial.print(digit);Serial.print(" ");
       cursor -=14;
       for(int k=0; k<=6;k++){ 
-//        Serial.print(digits[digit][k]);
+        Serial.print(digits[digit][k]);
         if (digits[digit][k]== 1){leds[cursor]=ledColor;}
          else if (digits[digit][k]==0){leds[cursor]=0x000000;};
          cursor ++;
         };
-//      Serial.println();
+      Serial.println();
       }
     else if (i==3){
-//      Serial.print("Digit 2 is : ");Serial.print(digit);Serial.print(" ");
+      Serial.print("Digit 2 is : ");Serial.print(digit);Serial.print(" ");
       cursor =7;
       for(int k=0; k<=6;k++){ 
-//        Serial.print(digits[digit][k]);
+        Serial.print(digits[digit][k]);
         if (digits[digit][k]== 1){leds[cursor]=ledColor;}
          else if (digits[digit][k]==0){leds[cursor]=0x000000;};
          cursor ++;
         };
-//      Serial.println();
+      Serial.println();
       }
     else if (i==4){
-//      Serial.print("Digit1 is : ");Serial.print(digit);Serial.print(" ");
+      Serial.print("Digit1 is : ");Serial.print(digit);Serial.print(" ");
       cursor =0;
       for(int k=0; k<=6;k++){ 
-//        Serial.print(digits[digit][k]);
+        Serial.print(digits[digit][k]);
         if (digits[digit][k]== 1){leds[cursor]=ledColor;}
          else if (digits[digit][k]==0){leds[cursor]=0x000000;};
          cursor ++;
         };
-//      Serial.println();
+      Serial.println();
       }
     Now /= 10;
   }; 
 };
 void DSTcheck(){
    int buttonDST = digitalRead(2);
-//   Serial.print("DST is: ");Serial.println(DST);
+   Serial.print("DST is: ");Serial.println(DST);
    if (buttonDST == LOW){
     if (DST){
       DST=false;
-//      Serial.print("Switching DST to: ");Serial.println(DST);
+      Serial.print("Switching DST to: ");Serial.println(DST);
       }
       else if (!DST){
         DST=true;
-//        Serial.print("Switching DST to: ");Serial.println(DST);
+        Serial.print("Switching DST to: ");Serial.println(DST);
       };
    delay(500);   
    };
@@ -137,15 +137,15 @@ void DSTcheck(){
 　
 void SwhitchMode(){
   int buttonMatch = digitalRead(3);
-//   Serial.print("Match is: ");Serial.println(Match);
+   Serial.print("Match is: ");Serial.println(Match);
    if (buttonMatch == LOW){
     if (Match){
       Match=false;
-//      Serial.print("Switching Match to: ");Serial.println(Match);
+      Serial.print("Switching Match to: ");Serial.println(Match);
       }
       else if (!Match){
         Match=true;
-//        Serial.print("Switching Match to: ");Serial.println(Match);
+        Serial.print("Switching Match to: ");Serial.println(Match);
       };
    delay(500);   
    };
