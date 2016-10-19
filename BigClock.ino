@@ -1,7 +1,7 @@
 #include <DS3232RTC.h>
 #include <Time.h> 
 #include <Wire.h> 
-#include "FastLED.h"
+//#include "FastLED.h"
 #define NUM_LEDS 29 // Number of LED controles (remember I have 3 leds / controler
 #define COLOR_ORDER BRG  // Define color order for your strip
 #define DATA_PIN 6  // Data pin for led comunication
