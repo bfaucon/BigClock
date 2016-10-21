@@ -7,16 +7,16 @@ bool Dot = true;  //Dot state
 int Mode = 0; // Mode
 int ScoreL; // Score Local
 int ScoreV; // Score Visitor
-??
+
 void setup(){ 
   Serial.begin(9600); 
 } 
-??
+
 void SwhitchMode(){
   Mode = 1  
 }
-??
-??
+
+
 int GetTimer(){
   tmElements_t Now;
   RTC.read(Now);
@@ -31,8 +31,8 @@ int GetTimer(){
   return (hour*100+minutes);
   };
   
-{ 
-if(button2Counter == 2) //if "Start/Stop" is pressed, the timer counts down 
+void timerFunction()  { //the timer function was made with the help of this post: http://pastebin.com/f57045830
+if(button2Counter == 0) //if "Start/Stop" is pressed, the timer counts down 
 { 
 static unsigned long lastTick = 0; 
 if (tSeconds > 0) 
