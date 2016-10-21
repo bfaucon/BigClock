@@ -13,6 +13,8 @@ http://www.instructables.com/id/Remotely-Controlled-Multifunction-Scoreboard-Bas
 http://www.instructables.com/id/Remote-Controlled-Arduino-Scoreboard-using-LED-Str/
 
 CountDown timer Project:
+https://sites.google.com/a/stu.dsd2.org/thetreyclock/home/code
+http://pastebin.com/f57045830
 
 
 Materials:
