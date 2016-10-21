@@ -31,7 +31,7 @@ void setup(){
   Serial.begin(9600); 
 } 
 
-void SwitchMode(){
+void ReadSerial(){
     if (Serial.available()) {
         // Process serial input for commands from the host.
         int ch = Serial.read();
@@ -176,7 +176,7 @@ void ShowScore(){
 }
 
 void loop(){
-  SwitchMode();
+  ReadSerial();
   switch(Mode){
   case 1:  //the clock defaults to clockFunction()
         if (Button != 0){
