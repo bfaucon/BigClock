@@ -7,16 +7,16 @@ bool Dot = true;  //Dot state
 int Mode = 0; // Mode
 int ScoreL; // Score Local
 int ScoreV; // Score Visitor
-　
+??
 void setup(){ 
   Serial.begin(9600); 
 } 
-　
+??
 void SwhitchMode(){
   Mode = 1  
 }
-　
-　
+??
+??
 int GetTimer(){
   tmElements_t Now;
   RTC.read(Now);
@@ -31,6 +31,70 @@ int GetTimer(){
   return (hour*100+minutes);
   };
   
+{ 
+if(button2Counter == 2) //if "Start/Stop" is pressed, the timer counts down 
+{ 
+static unsigned long lastTick = 0; 
+if (tSeconds > 0) 
+{ 
+if (millis() - lastTick >= 1000) 
+{ 
+lastTick = millis(); 
+tSeconds--; 
+lcdOutput(); 
+} 
+} 
+if (tMinutes > 0) 
+{ 
+if (tSeconds <= 0) 
+{ 
+tMinutes--; 
+tSeconds = 60; 
+} 
+} 
+if (hours > 0) 
+{ 
+if (tMinutes <= 0) 
+{ 
+hours--; 
+tMinutes = 60; 
+} 
+} 
+} 
+else //if "Start/Stop" is unpressed or pressed a second time, display the current time, but don't count down 
+{ 
+lcdOutput(); 
+} 
+if(hours == 00 && tMinutes == 00 && tSeconds == 00) //when timer ends, the alarm goes off 
+{ 
+button2Counter = 1; 
+while(digitalRead(buttonPin3) == HIGH) //the alarm will only go off until "Restart" is pressed 
+{ 
+lcd.setCursor(0, 1); 
+lcd.print("00:00:00"); 
+digitalWrite(buzzerPin, HIGH); 
+delay(100); 
+digitalWrite(buzzerPin, LOW); 
+delay(100); 
+} 
+if(digitalRead(buttonPin3) == LOW) //when "Restart" is pressed, the timer resets 
+{ 
+hours = 0; //this part also 
+tMinutes = 0; 
+tSeconds = 10; 
+lcdOutput(); 
+} 
+} 
+if(digitalRead(buttonPin3) == LOW && button2Counter == 1) //resets the timer when "Restart" button is pressed, as long as the timer is NOT running 
+{ 
+hours = 0; //this part also must be changed when the timer is altered, to match the initial time 
+tMinutes = 0; 
+tSeconds = 10; 
+delay(10); 
+} 
+}
+
+　
 int GetTime(){
   tmElements_t Now;
   RTC.read(Now);
@@ -44,7 +108,7 @@ int GetTime(){
   //Serial.print("Time is: "); Serial.println(hour*100+minutes);
   return (hour*100+minutes);
   };
-　
+??
 void TimeToArray(){
   int Now = GetTime();  // Get time
   for(int i=1;i<=4;i++){
@@ -65,7 +129,7 @@ void TimeToArray(){
   } 
   Serial.println(); 
 }
-　
+??
 void ShowTime(){
     int Now = GetTimer();
     int hour = Now / 100;
@@ -73,7 +137,7 @@ void ShowTime(){
     Serial.print(hour);Serial.print(":");Serial.print(min);Serial.print(" ");
     Serial.println(" "); 
 }
-　
+??
 void ShowScore(){
     int Now = GetTime();
     Serial.print("LLHC : ");Serial.print(ScoreL);Serial.print(" ");
@@ -83,8 +147,8 @@ void ShowScore(){
     Serial.print("VISITOR : ");Serial.print(ScoreV);
     Serial.println(" "); 
 }
-　
-　
+??
+??
 void loop(){
   SwhitchMode();
   switch(button1Counter){
