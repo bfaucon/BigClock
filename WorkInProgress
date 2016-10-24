@@ -43,7 +43,10 @@ void ReadSerial(){
                 buflen = 0;
                 Serial.print("buffer : "); Serial.println(buffer);
                 int Temp=atoi(buffer);
-                if (Temp == 1){Mode=1;}
+                if (Temp == 1){
+		   if (Mode == 3){Mode=1;}
+		   else {mode += 1};
+		}
                 else if (Temp == 2){Mode=2;}
                 else if (Temp == 3){Mode=3;}
                 else if (Temp == 4){Button=4;}
@@ -61,7 +64,7 @@ void ReadSerial(){
                 buffer[buflen++] = ch - 'a' + 'A';
             else
                 buffer[buflen++] = ch;
-        }
+         }
     }
 }
 
