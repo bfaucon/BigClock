@@ -20,14 +20,14 @@ http://pastebin.com/f57045830
 Materials:
 - Arduino Ok
 - RTC Ok
-- LED to be ordered
+- LED ordered
 
 Phases:
-- Develop Clock using a LCD
-- Develop ScoreBoard logic using LCD
+- Develop Clock using monitoring
+- Develop ScoreBoard logic using monitoring
 - Adapt to LED
 
 Possible futur development:
-- Adding Remote with 433Mhz
+- Adding Remote with 433Mhz https://www.carnetdumaker.net/articles/communiquer-sans-fil-en-433mhz-avec-la-bibliotheque-virtualwire-et-une-carte-arduino-genuino/
 - Adding temp
 - Adding Wifi to access current time and score from internet.
