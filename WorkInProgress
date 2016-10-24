@@ -4,10 +4,16 @@
 #include <string.h>
 #include "DS3232RTC.h"  // DS3232 library that returns time as a time_t
 bool Dot = true;  //Dot state
+bool Started = false; // Start Match
 int Mode = 1; // Mode
 int Button = 0;
 int ScoreL; // Score Local
 int ScoreV; // Score Visitor
+int NewTime;
+int OldTime;
+int NewTemp;
+int OldTemp;
+bool Celcius = true;
 
 char buffer[64];
 size_t buflen;
@@ -17,7 +23,7 @@ int buttonPin2 = 3;
 int buttonPin3 = 2;
 int buzzerPin = 13;
 
-int tSeconds=10, tMinutes=0, hours=0;  //this line, along with another line in void timerFunction(), 	
+int tSeconds=0, tMinutes=35, hours=0;  //this line, along with another line in void timerFunction(), 	
 	// is where you can adjust the amount of time that is counted down in
 	//the timer function
 int centiseconds=0, sSeconds=0, sMinutes=0;
@@ -43,14 +49,14 @@ void ReadSerial(){
             if (buflen > 0) {
                 buffer[buflen] = '\0';
                 buflen = 0;
-                Serial.print("buffer : "); Serial.println(buffer);
+                //Serial.print("buffer : "); Serial.println(buffer);
                 int Temp=atoi(buffer);
                 if (Temp == 1){
 		        	if (Mode == 3){Mode=1;}
 		   			else {Mode += 1;};
 				}
-           		else if (Temp == 2){Mode=2;}
-                else if (Temp == 3){Mode=3;}
+           	else if (Temp == 2){Started = !Started;}
+                else if (Temp == 3){Button=3;}
                 else if (Temp == 4){Button=4;}
                 else if (Temp == 5){Button=5;}
                 else if (Temp == 6){Button=6;}
@@ -70,7 +76,7 @@ void ReadSerial(){
     }
 }
 
-int GetTimer(){
+int GetTimerOld(){
   // Geting time until timer is developed.
   tmElements_t Now;
   RTC.read(Now);
@@ -95,6 +101,45 @@ int GetTime(){
   return (hour*100+minutes);
   };
   
+int GetTimer()  //the timer function was made with the help of this post: http://pastebin.com/f57045830
+{
+  if(Started)  //if "Start/Stop" is pressed, the timer counts down
+  {
+    static unsigned long lastTick = 0;
+    if (tSeconds > 0)
+    {
+      if (millis() - lastTick >= 1000)
+        {
+        lastTick = millis();
+        tSeconds--;
+      }
+     }
+    if (tMinutes > 0)
+    {
+      if (tSeconds <= 0)
+      {
+        tMinutes--;
+        tSeconds = 60;
+      }
+    }
+    if (hours > 0)
+    {
+      if (tMinutes <= 0)
+      {
+        hours--;
+        tMinutes = 60;
+      }
+    }
+  }
+//  else  //if "Start/Stop" is unpressed or pressed a second time, display the current time, but don't count down
+//  {
+//    
+//  }
+   return (tMinutes*100+tSeconds);  
+}
+
+
+  
 void TimeAdjust(){
     tmElements_t Now;
     RTC.read(Now);
@@ -118,6 +163,30 @@ void TimeAdjust(){
     
   }  
   
+void TimerAdjust(){
+    if (Button == 4){
+      if (tMinutes < 99){tMinutes += 1;};
+    }
+    if (Button == 5){
+      if (tMinutes > 0){tMinutes -= 1;};
+    }
+    if (Button == 6){
+      if (tSeconds == 59){tSeconds = 0; tMinutes +=1;}
+      else {tSeconds += 1; };
+    }
+    if (Button == 7){
+      if (tSeconds == 0){tSeconds = 59;tMinutes -=1;}
+      else {tSeconds -= 1;};
+    }    
+  }    
+  
+  
+void TimerReset(){
+  if (Button == 3){
+    tSeconds=0, tMinutes=35, hours=0;
+  }
+}
+
   
 void ScoreAdjust(){
     if (Button == 4){
@@ -132,16 +201,16 @@ void ScoreAdjust(){
       ScoreV += 1;
     }
     if (Button == 7){
-      if (ScoreL > 0){
+      if (ScoreV > 0){
         ScoreV -= 1;
       }
     }
   }  
 
 void TimeToArray(){
-  int Now = GetTime();  // Get time
+  int NewTime = GetTime();  // Get time
   for(int i=1;i<=4;i++){
-    int digit = Now % 10; // get last digit in time
+    int digit = NewTime % 10; // get last digit in time
     if (i==1){
       Serial.print("Digit 4 is : ");Serial.print(digit);Serial.print(" ");
     }
@@ -154,27 +223,58 @@ void TimeToArray(){
     else if (i==4){
       Serial.print("Digit 1 is : ");Serial.print(digit);Serial.print(" ");
     }
-    Now /= 10;
+    //Now /= 10;
   } 
   Serial.println(); 
 }
 
 void ShowTime(){
-    int Now = GetTimer();
-    int hour = Now / 100;
-    int min = Now % 100;
-    Serial.print(hour);Serial.print(":");Serial.print(min);Serial.print(" ");
-    Serial.println(" "); 
+    NewTime = GetTime();
+    if (NewTime != OldTime){
+      OldTime = NewTime;
+      int hour = NewTime / 100;
+      int min = NewTime % 100;
+      Serial.print(hour);Serial.print(":");Serial.print(min);Serial.print(" ");
+      Serial.println(" "); 
+    }
+}
+
+int GetTemp()
+{
+    int temp;
+    tpElements_t tp;
+    RTC.readTemperature(tp);
+    if (tp.Temp != NO_TEMPERATURE) {
+      
+        temp = tp.Temp * 10 + tp.Decimal/10;
+    } 
+    else {
+        temp = 0;
+    }
+    //Serial.println(temp);
+    return(temp);
+}
+
+void ShowTemp(){
+    NewTemp = GetTemp();
+    if (NewTemp != OldTemp){
+      OldTemp = NewTemp;
+      Serial.print(NewTemp/10);Serial.print(".");Serial.print(NewTemp %10);Serial.print("C");
+      Serial.println(" "); 
+    }
 }
 
 void ShowScore(){
-    int Now = GetTime();
-    Serial.print("LLHC : ");Serial.print(ScoreL);Serial.print(" ");
-    int hour = Now / 100;
-    int min = Now % 100;
-    Serial.print(hour);Serial.print(":");Serial.print(min);Serial.print(" ");
-    Serial.print("VISITOR : ");Serial.print(ScoreV);
-    Serial.println(" "); 
+    NewTime = GetTimer();
+    if (NewTime != OldTime){
+      OldTime = NewTime;
+      Serial.print("LLHC : ");Serial.print(ScoreL);Serial.print(" ");
+      int hour = NewTime / 100;
+      int min = NewTime % 100;
+      Serial.print(hour);Serial.print(":");Serial.print(min);Serial.print(" ");
+      Serial.print("VISITOR : ");Serial.print(ScoreV);
+      Serial.println(" "); 
+    }
 }
 
 void loop(){
@@ -191,11 +291,21 @@ void loop(){
   break;
   case 2:  //Switches to timerFunction()
         if (Button != 0){
-          ScoreAdjust();
+          if (Started){ScoreAdjust();}
+          else {TimerReset();
+          TimerAdjust();};
           Button = 0;
           //delay(1000);
         }
 	ShowScore();
+  break;
+  case 3:  //Switches to timerFunction()
+        if (Button != 0){
+          if (Celcius){Celcius = !Celcius;}
+          Button = 0;
+          //delay(1000);
+        }
+	ShowTemp();
   break;
   }
   //delay(10000);
