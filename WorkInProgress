@@ -47,7 +47,7 @@ void ReadSerial(){
                 int Temp=atoi(buffer);
                 if (Temp == 1){
 		        	if (Mode == 3){Mode=1;}
-		   			else {mode += 1};
+		   			else {Mode += 1;};
 				}
            		else if (Temp == 2){Mode=2;}
                 else if (Temp == 3){Mode=3;}
