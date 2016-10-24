@@ -76,18 +76,6 @@ void ReadSerial(){
     }
 }
 
-int GetTimerOld(){
-  // Geting time until timer is developed.
-  tmElements_t Now;
-  RTC.read(Now);
-  //time_t Now = RTC.Now();// Getting the current Time and storing it into a DateTime object 
-  int hour=Now.Hour;
-  int minutes=Now.Minute;
-  int second =Now.Second;
-  //Serial.print("Time is: "); Serial.println(hour*100+minutes);
-  return (hour*100+minutes);
-  };
-  
 int GetTime(){
   tmElements_t Now;
   RTC.read(Now);
@@ -131,15 +119,26 @@ int GetTimer()  //the timer function was made with the help of this post: http:/
       }
     }
   }
-//  else  //if "Start/Stop" is unpressed or pressed a second time, display the current time, but don't count down
-//  {
-//    
-//  }
-   return (tMinutes*100+tSeconds);  
+  return (tMinutes*100+tSeconds);  
 }
 
+int GetTemp()
+{
+    // To replace with reading a DS18B20 or other temp probe.
+    int temp;
+    tpElements_t tp;
+    RTC.readTemperature(tp);
+    if (tp.Temp != NO_TEMPERATURE) {
+      
+        temp = tp.Temp * 10 + tp.Decimal/10;
+    } 
+    else {
+        temp = 0;
+    }
+    //Serial.println(temp);
+    return(temp);
+}
 
-  
 void TimeAdjust(){
     tmElements_t Now;
     RTC.read(Now);
@@ -239,21 +238,7 @@ void ShowTime(){
     }
 }
 
-int GetTemp()
-{
-    int temp;
-    tpElements_t tp;
-    RTC.readTemperature(tp);
-    if (tp.Temp != NO_TEMPERATURE) {
-      
-        temp = tp.Temp * 10 + tp.Decimal/10;
-    } 
-    else {
-        temp = 0;
-    }
-    //Serial.println(temp);
-    return(temp);
-}
+
 
 void ShowTemp(){
     NewTemp = GetTemp();
