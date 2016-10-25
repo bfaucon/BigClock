@@ -16,6 +16,17 @@ CountDown timer Project:
 https://sites.google.com/a/stu.dsd2.org/thetreyclock/home/code
 http://pastebin.com/f57045830
 
+How it Works
+- Sending key to monitor:
+1:  Change mode 1) Clock, 2) Match, 3) Temp
+2:  Stop/Start Timer
+3:  Reset Timer to 35:00 
+4: Hour +1, Score L +1
+5: Hour -1, Score L -1
+6: Min +1, Score V +1
+7: Min -1, Score V -1
+8: tbd
+
 
 Materials:
 - Arduino Ok
@@ -23,11 +34,14 @@ Materials:
 - LED ordered
 
 Phases:
-- Develop Clock using monitoring
-- Develop ScoreBoard logic using monitoring
+- Develop Clock using monitor
+- Develop ScoreBoard logic using monitor
+- swith timer 35 25 17.30 10 5 
+- Adding button
 - Adapt to LED
 
 Possible futur development:
 - Adding Remote with 433Mhz https://www.carnetdumaker.net/articles/communiquer-sans-fil-en-433mhz-avec-la-bibliotheque-virtualwire-et-une-carte-arduino-genuino/
 - Adding temp
 - Adding Wifi to access current time and score from internet.
+- Adding Horn
