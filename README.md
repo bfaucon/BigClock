@@ -36,9 +36,10 @@ Materials:
 Phases:
 - Develop Clock using monitor
 - Develop ScoreBoard logic using monitor
-- swith timer 35 25 17.30 10 5 
-- Adding button
 - Adapt to LED
+- swith timer 35 25 17.30 10 5  (tbd??)
+- Adding button (tbd)
+
 
 Possible futur development:
 - Adding Remote with 433Mhz https://www.carnetdumaker.net/articles/communiquer-sans-fil-en-433mhz-avec-la-bibliotheque-virtualwire-et-une-carte-arduino-genuino/
