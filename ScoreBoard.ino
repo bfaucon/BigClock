@@ -98,7 +98,7 @@ void ReadSerial(){
                   ScoreL=0;
                   OldTemp=0;
                 }
-                else if (Temp == 2){Started = !Started;}
+                else if (Temp == 2){Button=2;}
                 else if (Temp == 3){Button=3;}
                 else if (Temp == 4){Button=4;}
                 else if (Temp == 5){Button=5;}
@@ -227,11 +227,81 @@ void TimerReset(){
     tSeconds=0, tMinutes=35, hours=0;
   }
 }
- 
+
+void ShowGoal(){
+   static uint8_t hue = 0;
+   Serial.println("GOALLLLLL");
+   for(int i = 0; i < 140; i++) {
+    // Set the i'th led to red 
+    leds[i] = CHSV(hue++, 255, 255);
+    // Show the leds
+    FastLED.show(); 
+    // now that we've shown the leds, reset the i'th led to black
+    // leds[i] = CRGB::Black;
+    //fadeall();
+    // Wait a little bit before we loop around and do it again
+    delay(10);
+  }
+  for(int i = 139; i >= 0; i--) {
+    // Set the i'th led to red 
+    leds[i] = CHSV(hue++, 255, 255);
+    // Show the leds
+    FastLED.show();
+    // now that we've shown the leds, reset the i'th led to black
+    // leds[i] = CRGB::Black;
+    //fadeall();
+    // Wait a little bit before we loop around and do it again
+    delay(10);
+  }
+  /*for(int i = 0; i < 4; i++) {
+    //ShowGOAL
+    int cursor = 0;
+    for(int k=0; k<=20;k++){
+        //Serial.print(digits[digit][k]);
+        if (digits[10][k]== 1){leds[cursor]=ledColor;}
+         else if (digits[10][k]==0){leds[cursor]=0x000000;};
+         cursor ++;
+        };
+    cursor =21;
+    for(int k=0; k<=20;k++){
+        //Serial.print(digits[digit][k]);
+        if (digits[11][k]== 1){leds[cursor]=ledColor;}
+         else if (digits[11][k]==0){leds[cursor]=0x000000;};
+         cursor ++;
+        };
+    cursor =44;
+    for(int k=0; k<=20;k++){
+        //Serial.print(digits[digit][k]);
+        if (digits[12][k]== 1){leds[cursor]=ledColor;}
+         else if (digits[12][k]==0){leds[cursor]=0x000000;};
+         cursor ++;
+        };
+    cursor =65;
+    for(int k=0; k<=20;k++){
+        //Serial.print(digits[digit][k]);
+        if (digits[13][k]== 1){leds[cursor]=ledColor;}
+         else if (digits[13][k]==0){leds[cursor]=0x000000;};
+         cursor ++;
+        };
+    FastLED.show();    
+    delay(100);
+    //HideGoal
+    for(int k=0; k<=140;k++){
+        leds[cursor]=0x000000;
+        cursor ++;
+        };
+    FastLED.show();   
+    Serial.println("End Goal");
+    delay(100);
+  }
+  
+  */
+}
  
 void ScoreAdjust(){
     if (Button == 4){
       ScoreL += 1;
+      ShowGoal();
     }
     if (Button == 5){
       if (ScoreL > 0){
@@ -240,6 +310,7 @@ void ScoreAdjust(){
     }
     if (Button == 6){
       ScoreV += 1;
+      ShowGoal();
     }
     if (Button == 7){
       if (ScoreV > 0){
@@ -321,14 +392,12 @@ void TimeToArray(int NewTime){
 void ScoreToArray(int ScoreV, int ScoreL){
   int cursor = 0;
   int digit = 0;
+  cursor =86;
   if (ScoreV > 9){  
-     cursor =86;
      for(int k=0; k<=5;k++){
-        //Serial.print(digits[digit][k]);
         leds[cursor]=ledColor;
         cursor ++;
         };
-      //Serial.println();
   } else {
       for(int k=0; k<=5;k++){
         //Serial.print(digits[digit][k]);
@@ -339,38 +408,29 @@ void ScoreToArray(int ScoreV, int ScoreL){
   cursor =92;
   digit = ScoreV %10;
   for(int k=0; k<=20;k++){
-        //Serial.print(digits[digit][k]);
-        
         if (digits[digit][k]== 1){leds[cursor]=ledColor;}
          else if (digits[digit][k]==0){leds[cursor]=0x000000;};
          cursor ++;
         };
-      //Serial.println();
-   if (ScoreL > 9){
-      cursor =113;
-           for(int k=0; k<=5;k++){
-        //Serial.print(digits[digit][k]);
+  cursor =113;
+  if (ScoreL > 9){ 
+      for(int k=0; k<=5;k++){
         leds[cursor]=ledColor;
         cursor ++;
         };
-      //Serial.println();
   } else {
       for(int k=0; k<=5;k++){
-        //Serial.print(digits[digit][k]);
         leds[cursor]=0x000000;
         cursor ++;
         };
-    }
-    //Serial.print("Digit 1 is : ");Serial.print(digit);Serial.print(" ");
+  }
     cursor =119;
     digit = ScoreL %10;
       for(int k=0; k<=20;k++){
-        //Serial.print(digits[digit][k]);
         if (digits[digit][k]== 1){leds[cursor]=ledColor;}
          else if (digits[digit][k]==0){leds[cursor]=0x000000;};
          cursor ++;
         };
-      //Serial.println();
 }
  
 void BlackArray(){
@@ -496,14 +556,17 @@ void loop(){
   break;
   case 2:  //Switches to timerFunction()
         if (Button != 0){
-          if (Started){ScoreAdjust();}
-          else {TimerReset();
-          TimerAdjust();};
+          if (Button == 2) {Started = !Started;}
+          else {
+             if (Started){ScoreAdjust();}
+             else {TimerReset();
+             TimerAdjust();};
+          }
           Button = 0;
           //delay(1000);
         }
-                ShowScore();
-                FastLED.show();
+        ShowScore();
+        FastLED.show();
   break;
   case 3:  //Switches to timerFunction()
         if (Button != 0){
