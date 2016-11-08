@@ -31,7 +31,7 @@ How it Works
 Materials:
 - Arduino Ok
 - RTC Ok
-- LED ordered
+- LED ok
 
 Phases:
 - Develop Clock using monitor
