@@ -8,7 +8,7 @@
 #define NUM_LEDS 150 // Number of LED controles (remember I have 3 leds / controler
 #define COLOR_ORDER BRG  // Define color order for your strip
 #define DATA_PIN 3  // Data pin for led comunication
-int ledColor = 0x0000FF; // Color used (in hex)
+int ledColor = 0x0000FF;//0xFFFFFF;0x0000FF; // Color used (in hex)
 
 CRGB leds[NUM_LEDS]; // Define LEDs strip
 byte digits[16][21] = {{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -244,9 +244,9 @@ void ScoreAdjust(){
     }
   }  
 
-void TimeToArray(){
+void TimeToArray(int NewTime){
   int cursor = 0;
-  int NewTime = GetTime();  // Get time
+  //int NewTime = GetTime();  // Get time
   for(int i=1;i<=4;i++){
     int digit = NewTime % 10; // get last digit in time
     if (i==1){
@@ -313,7 +313,7 @@ void ShowTime(){
       int min = NewTime % 100;
       printDec2(hour);Serial.print(":");printDec2(min);Serial.print(" ");
       Serial.println(" "); 
-      TimeToArray();
+      TimeToArray(NewTime);
     }
 }
 
@@ -339,6 +339,7 @@ void ShowTemp(){
       OldTemp = NewTemp;
       printDec2(NewTemp/10);Serial.print(".");Serial.print(NewTemp %10);Serial.print("C");
       Serial.println(" "); 
+      
     }
 }
 
@@ -352,6 +353,7 @@ void ShowScore(){
       printDec2(hour);Serial.print(":");printDec2(min);Serial.print(" ");
       Serial.print("VISITOR : ");Serial.print(ScoreV);
       Serial.println(" "); 
+      TimeToArray(NewTime);
     }
 }
 
