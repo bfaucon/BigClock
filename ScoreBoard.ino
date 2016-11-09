@@ -8,13 +8,13 @@
 #define NUM_LEDS 150 // Number of LED controles (remember I have 3 leds / controler
 #define COLOR_ORDER BRG  // Define color order for your strip
 #define DATA_PIN 3     // Data pin for led comunication
-#define BUTTON_PIN 4   // pin for mode button
-#define BUTTON_PIN 5   // pin for start/stop button
-#define BUTTON_PIN 6   // pin for reset button
-#define BUTTON_PIN 7   // pin for + 1 button
-#define BUTTON_PIN 8   // pin for - 1 button
-#define BUTTON_PIN 9   // pin for + 2 button
-#define BUTTON_PIN 10  // pin for - 2 button
+#define BUTTON1_PIN 4   // pin for mode button
+#define BUTTON2_PIN 5   // pin for start/stop button
+#define BUTTON3_PIN 6   // pin for reset button
+#define BUTTON4_PIN 7   // pin for + 1 button
+#define BUTTON5_PIN 8   // pin for - 1 button
+#define BUTTON6_PIN 9   // pin for + 2 button
+#define BUTTON7_PIN 10  // pin for - 2 button
 
 int ledColor = 0x0000FF;//0xFFFFFF;0x0000FF; // Color used (in hex)
  
