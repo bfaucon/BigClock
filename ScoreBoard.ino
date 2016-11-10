@@ -1,5 +1,5 @@
 #include <Wire.h> 
-#include "FastLED.h"
+#include "FastLED.h"  // Library for the 
 #include <TimeLib.h> 
 #include <avr/pgmspace.h>
 #include <string.h>
@@ -7,14 +7,14 @@
  
 #define NUM_LEDS 150 // Number of LED controles (remember I have 3 leds / controler
 #define COLOR_ORDER BRG  // Define color order for your strip
-#define DATA_PIN 3     // Data pin for led comunication
-#define BUTTON1_PIN 4   // pin for mode button
-#define BUTTON2_PIN 5   // pin for start/stop button
-#define BUTTON3_PIN 6   // pin for reset button
-#define BUTTON4_PIN 7   // pin for + 1 button
-#define BUTTON5_PIN 8   // pin for - 1 button
-#define BUTTON6_PIN 9   // pin for + 2 button
-#define BUTTON7_PIN 10  // pin for - 2 button
+#define DATA_PIN 3  // Data pin for led comunication
+#define BUTTON1_PIN 4   // pin for mode button
+#define BUTTON2_PIN 5   // pin for start/stop button
+#define BUTTON3_PIN 6   // pin for reset button
+#define BUTTON4_PIN 7   // pin for + 1 button
+#define BUTTON5_PIN 8   // pin for - 1 button
+#define BUTTON6_PIN 9   // pin for + 2 button
+#define BUTTON7_PIN 10  // pin for - 2 button
 
 int ledColor = 0x0000FF;//0xFFFFFF;0x0000FF; // Color used (in hex)
  
@@ -36,15 +36,17 @@ byte digits[16][21] = {{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, // Digit 0
 {1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0}, // Digit °
 {0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0}}; // Digit C
 
-int structure[9][2] = {{0,21}, // Hour Decade
-{21,21}, // Hour Unit
-{42,2},  // Double dot
-{44,21}, // Minute Decade
-{65,21}, // Minute Unit
-{86,6},  // Score V Decade
-{92,21}, // Score V Unid
-{113,6}, // Score L Decade
-{119,21}}; // Score L Unit
+// Structure pour utilisation de different leds.
+int structure[9][2] = {
+ {42,2},  // Double dot
+ {0,21},  // Hour Decade
+ {21,21}, // Hour Unit
+ {44,21}, // Minute Decade
+ {65,21}, // Minute Unit
+ {86,6},  // Score V Decade
+ {92,21}, // Score V Unid
+ {113,6}, // Score L Decade
+ {119,21}}; // Score L Unit
  
 bool Dot = true;  //Dot state
 bool Started = false; // Start Match
@@ -60,7 +62,14 @@ bool Celcius = true;
  
 char buffer[64];
 size_t buflen;
-
+ 
+ 
+ 
+int buttonPin1 = 4;
+int buttonPin2 = 5;
+int buttonPin3 = 6;
+int buzzerPin4 = 13;
+ 
 int tSeconds=0, tMinutes=35, hours=0;  //this line, along with another line in void timerFunction(),     
                 // is where you can adjust the amount of time that is counted down in
                 //the timer function
