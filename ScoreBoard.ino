@@ -64,12 +64,6 @@ char buffer[64];
 size_t buflen;
  
  
- 
-int buttonPin1 = 4;
-int buttonPin2 = 5;
-int buttonPin3 = 6;
-int buzzerPin4 = 13;
- 
 int tSeconds=0, tMinutes=35, hours=0;  //this line, along with another line in void timerFunction(),     
                 // is where you can adjust the amount of time that is counted down in
                 //the timer function
