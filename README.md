@@ -16,6 +16,9 @@ CountDown timer Project:
 https://sites.google.com/a/stu.dsd2.org/thetreyclock/home/code
 http://pastebin.com/f57045830
 
+Special button click/doubleClick, etc..
+http://forum.arduino.cc/index.php?topic=14479.0
+
 How it Works
 - Sending key to monitor:
 1:  Change mode 1) Clock, 2) Match, 3) Temp
