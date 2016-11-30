@@ -18,6 +18,7 @@ http://pastebin.com/f57045830
 
 Special button click/doubleClick, etc..
 http://forum.arduino.cc/index.php?topic=14479.0
+one click https://www.arduino.cc/en/Tutorial/StateChangeDetection
 
 How it Works
 - Sending key to monitor:
