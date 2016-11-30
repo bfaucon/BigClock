@@ -88,7 +88,15 @@ void setup()
   Serial.begin(9600);
   Serial.println("resetting");
   LEDS.addLeds<WS2812B,DATA_PIN,RGB>(leds,NUM_LEDS);
-  LEDS.setBrightness(84);
+  LEDS.setBrightness(90);
+  pinMode(4,INPUT_PULLUP);
+  pinMode(5,INPUT_PULLUP);
+  pinMode(6,INPUT_PULLUP);
+  pinMode(7,INPUT_PULLUP);
+  pinMode(8,INPUT_PULLUP);
+  pinMode(9,INPUT_PULLUP);
+  pinMode(10,INPUT_PULLUP);
+  
 }
  
 void printDec2(int value)
@@ -148,6 +156,34 @@ void ReadSerial()
     }
   }
 }  
+
+void ReadButton()
+{
+   int Temp = 0;
+   // Process serial input for commands from the host.
+   if (!digitalRead(4)) 
+   {
+      if (Mode == 3)
+      {
+         Mode=1;
+      }
+      else 
+      {
+         Mode += 1;
+      };
+      ScoreV=0;
+      ScoreL=0;
+      OldTemp=0;
+      delay(500);
+   }  
+   if (!digitalRead(5)) {Button = 2;delay(500);}  
+   if (!digitalRead(6)) {Button = 3;delay(500);}  
+   if (!digitalRead(7)) {Button = 4;delay(500);}  
+   if (!digitalRead(8)) {Button = 5;delay(500);}  
+   if (!digitalRead(9)) {Button = 6;delay(500);}  
+   if (!digitalRead(10)) {Button = 7;delay(500);}  
+
+}
 
 int GetTimerOld(){
   // Geting time until timer is developed.
@@ -636,6 +672,7 @@ void loop()
 {
   ReadSerial(); // for test purpose reading serial in place of button
                 // 1: switch mode 1: clock, 2 timer, 3: temp
+  ReadButton();
   switch(Mode)
   {
     case 1:  //the clock defaults to clockFunction()
@@ -649,9 +686,12 @@ void loop()
       FastLED.show();
     break;
     case 2:  //Switches to timerFunction()
+      //Serial.print("Button=");
+      //Serial.print(Button);
       if (Button != 0)
       {
         if (Button == 2) {Started = !Started;}
+        
         else 
         {
           if (Started){ScoreAdjust();}
